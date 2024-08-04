@@ -1,8 +1,10 @@
 import Guard from "@/components/server/Guard";
+import { Button } from "@/components/ui/button";
+import { getCurrentUser } from "@/server/queries/user";
 import { permissionList } from "@/utils/constants";
 
 export default async function Dashboard() {
-
+  const user = await getCurrentUser();
   const permissions = [
     { name: "Post Show", permission: permissionList.POST_SHOW },
     { name: "Post Create", permission: permissionList.POST_CREATE },
@@ -12,8 +14,9 @@ export default async function Dashboard() {
 
   return (
     <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6">
-      <div className="flex items-center">
+      <div className="flex items-start flex-col">
         <h1 className="text-lg font-semibold md:text-2xl">Permissions Modules</h1>
+        <p>You are  - <b>{user?.role.name}</b></p>
       </div>
       <div
         className="flex flex-1 flex-wrap items-center justify-center gap-4 rounded-lg border border-dashed shadow-sm p-4"
@@ -24,11 +27,9 @@ export default async function Dashboard() {
             key={index}
             permission={item.permission}
           >
-            <button
-              className="flex items-center justify-center w-40 h-20 p-4 bg-white text-gray-800 border border-gray-300 rounded-lg shadow-sm hover:bg-gray-100 transition-all duration-200"
-            >
+            <Button>
               {item.name}
-            </button>
+            </Button>
           </Guard>
         ))}
       </div>

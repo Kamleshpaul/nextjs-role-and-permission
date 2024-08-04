@@ -1,40 +1,26 @@
 import Link from "next/link"
 import {
-  Bell,
   CircleUser,
   Coffee,
   Home,
-  LineChart,
   Menu,
-  Package,
-  Package2,
-  Search,
-  ShoppingCart,
   Users,
 } from "lucide-react"
 
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card"
 import {
   DropdownMenu,
   DropdownMenuContent,
-  DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { Input } from "@/components/ui/input"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { auth } from "@/auth"
 import { redirect } from "next/navigation"
 import Logout from "./logout"
+import Guard from "@/components/server/Guard"
+import { permissionList } from "@/utils/constants"
 
 
 const Nav = () =>
@@ -46,6 +32,18 @@ const Nav = () =>
       <Home className="h-4 w-4" />
       Dashboard
     </Link>
+
+    <Guard
+      permission={permissionList.POST_SHOW}
+    >
+      <Link
+        href="/"
+        className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+      >
+        <Users className="h-4 w-4" />
+        Users
+      </Link>
+    </Guard>
   </nav>
 
 export default async function DashboardLayout(

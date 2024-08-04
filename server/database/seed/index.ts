@@ -83,10 +83,6 @@ async function main() {
       // Editor has all permissions except delete
       {
         role_id: getRoleId('editor'),
-        permission_id: getPermissionId('post-list')
-      },
-      {
-        role_id: getRoleId('editor'),
         permission_id: getPermissionId('post-create')
       },
       {
@@ -108,6 +104,18 @@ async function main() {
         email: 'admin@example.com',
         password: await makePassword('password'),
         role_id: getRoleId('admin')
+      },
+      {
+        name: 'Editor',
+        email: 'editor@example.com',
+        password: await makePassword('password'),
+        role_id: getRoleId('editor')
+      },
+      {
+        name: 'User',
+        email: 'user@example.com',
+        password: await makePassword('password'),
+        role_id: getRoleId('user')
       }
     ]);
 
