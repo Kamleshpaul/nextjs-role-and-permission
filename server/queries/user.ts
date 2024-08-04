@@ -1,5 +1,5 @@
 import { and, eq } from "drizzle-orm"
-import { db, rolesTable, usersTable } from "../database"
+import { db, permissionsTable, rolePermissionsTable, rolesTable, usersTable } from "../database"
 import { auth } from "@/auth";
 
 export const getRoles = async () => {
@@ -9,9 +9,9 @@ export const getRoles = async () => {
 }
 
 
-export const  getUserByEmailAndPassword =  async (email:string) => {
+export const getUserByEmailAndPassword = async (email: string) => {
   const result = await db.query.usersTable.findFirst({
-    where:eq(usersTable.email,email)
+    where: eq(usersTable.email, email)
   });
   if (!result) throw Error('No Usres found.');
   return result;
@@ -24,17 +24,13 @@ export const getMyPermissions = async () => {
     throw new Error("Role ID not found in session.");
   }
 
-  const roleWithPermission = await db.query.rolesTable.findFirst({
-    where:eq(rolesTable.id, session.user.role_id),
-    with:{
-      permissions:true
-    }
-  })
+  const permissions = await db
+    .select({
+      permissionName: permissionsTable.name
+    })
+    .from(rolePermissionsTable)
+    .innerJoin(permissionsTable, eq(rolePermissionsTable.permission_id, permissionsTable.id))
+    .where(eq(rolePermissionsTable.role_id, session.user.role_id));
 
-  if (!roleWithPermission) {
-    console.log("No permissions found for role ID:", session.user.role_id);
-    return;
-  }
-
-  console.log("Permissions for role ID:", session.user.role_id, roleWithPermission);
+  return permissions;
 };

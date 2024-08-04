@@ -46,21 +46,13 @@ const Nav = () =>
       <Home className="h-4 w-4" />
       Dashboard
     </Link>
-
-    <Link
-      href="/users"
-      className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
-    >
-      <Users className="h-4 w-4" />
-      User
-    </Link>
-</nav>
+  </nav>
 
 export default async function DashboardLayout(
-  {children}:
-  Readonly<{
-  children: React.ReactNode;
-}>) {
+  { children }:
+    Readonly<{
+      children: React.ReactNode;
+    }>) {
 
   const session = await auth();
   if (!session) {
@@ -77,7 +69,7 @@ export default async function DashboardLayout(
             </Link>
           </div>
           <div className="flex-1">
-            <Nav/>
+            <Nav />
           </div>
 
         </div>
@@ -98,7 +90,7 @@ export default async function DashboardLayout(
 
             <SheetContent side="left" className="flex flex-col">
               <div className="mt-10">
-                <Nav/>
+                <Nav />
               </div>
             </SheetContent>
           </Sheet>
@@ -115,7 +107,7 @@ export default async function DashboardLayout(
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>{session.user?.email}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <Logout/>
+              <Logout />
             </DropdownMenuContent>
           </DropdownMenu>
         </header>
