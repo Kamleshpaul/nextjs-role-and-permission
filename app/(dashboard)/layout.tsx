@@ -34,7 +34,7 @@ const Nav = () =>
     </Link>
 
     <Guard
-      permission={permissionList.POST_SHOW}
+      permissions={[permissionList.POST_SHOW]}
     >
       <Link
         href="/users"

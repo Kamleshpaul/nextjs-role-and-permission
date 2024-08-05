@@ -4,15 +4,19 @@ import { getMyPermissions } from "@/server/queries/user";
 import { ReactNode } from "react";
 
 interface GuardProps {
-  permission: string;
+  permissions: string[];
   children: ReactNode;
 }
 
-export default async function Guard({ permission, children }: GuardProps) {
-  const myPermission = await getMyPermissions();
+export default async function Guard({ permissions, children }: GuardProps) {
+  const myPermissions = await getMyPermissions();
 
-  if (!myPermission.find(x => x.permissionName === permission)) {
-    return null
+  const hasPermissions = permissions.every(permission =>
+    myPermissions.some(x => x.permissionName === permission)
+  );
+
+  if (!hasPermissions) {
+    return null;
   }
 
   return (

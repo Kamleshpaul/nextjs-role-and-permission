@@ -5,7 +5,7 @@ import React from 'react'
 
 export default async function UserPage() {
 
-  const permission = await hasPermission(permissionList.POST_SHOW);
+  const permission = await hasPermission([permissionList.POST_SHOW]);
   if (!permission) {
     return redirect('/')
   }

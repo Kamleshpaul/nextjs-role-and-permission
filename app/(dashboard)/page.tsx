@@ -25,7 +25,7 @@ export default async function Dashboard() {
         {permissions.map((item, index) => (
           <Guard
             key={index}
-            permission={item.permission}
+            permissions={[item.permission]}
           >
             <Button>
               {item.name}
