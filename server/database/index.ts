@@ -3,7 +3,7 @@ dotenv.config();
 
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
-import { pgTable, text, integer, serial } from 'drizzle-orm/pg-core';
+import { pgTable, text, integer, serial, boolean, json } from 'drizzle-orm/pg-core';
 import { relations } from 'drizzle-orm';
 
 
@@ -38,11 +38,27 @@ export const rolePermissionsTable = pgTable('role_permissions', {
   permission_id: integer('permission_id').references(() => permissionsTable.id).notNull(),
 });
 
-export const userRelations = relations(usersTable, ({ one }) => ({
+
+export const passKeysTable = pgTable("pass_keys", {
+  id: serial("id").primaryKey(),
+  credentialID: text('credential_id').notNull(),
+  credentialPublicKey: text('credential_public_key').notNull(),
+  counter: text("counter").notNull(),
+  credentialDeviceType: text("credential_device_type").notNull(),
+  credentialBackedUp: text("credential_backed_up").notNull(),
+  transports: json('transports').$type<string[]>().notNull(),
+  user_id: integer('user_id').references(() => usersTable.id).notNull(),
+});
+
+
+
+
+export const userRelations = relations(usersTable, ({ one, many }) => ({
   role: one(rolesTable, {
     fields: [usersTable.role_id],
     references: [rolesTable.id]
-  })
+  }),
+  passKeys: many(passKeysTable)
 }));
 
 export const roleRelations = relations(rolesTable, ({ many }) => ({
@@ -54,6 +70,14 @@ export const permissionRelations = relations(permissionsTable, ({ many }) => ({
   roles: many(rolePermissionsTable)
 }))
 
+export const passKeysRelations = relations(passKeysTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [passKeysTable.user_id],
+    references: [usersTable.id]
+  }),
+}))
+
+
 
 export const db = drizzle(pool, {
   schema: {
@@ -62,10 +86,17 @@ export const db = drizzle(pool, {
     usersTable,
     userRelations,
     roleRelations,
-    permissionRelations
+    permissionRelations,
+    passKeysTable,
+    passKeysRelations
   }
 });
 
 
 export type IUser = typeof usersTable.$inferSelect;
 export type IRole = typeof rolesTable.$inferSelect;
+export type IPassKey = typeof passKeysTable.$inferSelect;
+
+export type IUserWithPassKeys = IUser & {
+  passKeys: IPassKey[];
+};

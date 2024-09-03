@@ -1,4 +1,4 @@
-import NextAuth, { DefaultSession } from "next-auth"
+import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { comparePassword } from "@/utils/password"
 import { getUserByEmailAndPassword } from "./server/queries/user"
@@ -10,19 +10,25 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       credentials: {
         email: {},
         password: {},
+        credentialID: {}
       },
       authorize: async (credentials) => {
         const email = credentials.email as string;
         const password = credentials.password as string;
+        const credentialID = credentials.credentialID as string;
 
         const user = await getUserByEmailAndPassword(email);
         if (!user) {
           throw new Error("User not found.");
         }
 
-        const isPasswordValid = await comparePassword({ plainPassword: password, hashPassword: user.password });
-        if (!isPasswordValid) {
-          throw new Error("Invalid password.");
+
+        if (!credentialID && user.passKeys.map(key => key.credentialID).includes(credentialID)) {
+          const isPasswordValid = await comparePassword({ plainPassword: password, hashPassword: user.password });
+          if (!isPasswordValid) {
+            throw new Error("Invalid password.");
+          }
+
         }
 
         return {
@@ -35,8 +41,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
     }),
   ],
   callbacks: {
-    async jwt({token,user}){
-      if(user?.role_id){
+    async jwt({ token, user }) {
+      if (user?.role_id) {
         token.role_id = user.role_id
       }
       return token;

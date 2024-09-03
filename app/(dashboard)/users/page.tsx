@@ -2,6 +2,7 @@ import { permissionList } from '@/utils/constants'
 import { hasPermission } from '@/utils/guard'
 import { redirect } from 'next/navigation';
 import React from 'react'
+import RegisterDevice from './RegisterDevice';
 
 export default async function UserPage() {
 
@@ -11,6 +12,11 @@ export default async function UserPage() {
   }
 
   return (
-    <div>You have User page access</div>
+    <div className='flex justify-center items-center h-screen flex-col gap-10'>
+      <p>
+        You have User page access
+      </p>
+      <RegisterDevice />
+    </div>
   )
 }

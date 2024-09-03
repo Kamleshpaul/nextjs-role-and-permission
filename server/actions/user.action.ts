@@ -41,16 +41,16 @@ export const loginAction = createServerAction()
         password: input.password,
         redirectTo: "/"
       });
-     } catch (error: any) {
-       if (isRedirectError(error)) throw error; //https://github.com/nextauthjs/next-auth/discussions/9389
+    } catch (error: any) {
+      if (isRedirectError(error)) throw error; //https://github.com/nextauthjs/next-auth/discussions/9389
 
-       if (error instanceof AuthError) {
-         return {
-           errors: undefined,
-           message: error.cause?.err?.message
-         }
-       }
-     }
+      if (error instanceof AuthError) {
+        return {
+          errors: undefined,
+          message: error.cause?.err?.message
+        }
+      }
+    }
 
 
     return {
@@ -81,11 +81,11 @@ export const registerAction = createServerAction()
       email: input.email,
       name: input.name,
       password: await makePassword(input.password),
-      role_id:parseInt(input.role_id)
+      role_id: parseInt(input.role_id)
     }).returning();
 
 
-    if(res[0]){
+    if (res[0]) {
       user = res[0];
     }
 

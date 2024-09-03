@@ -27,7 +27,10 @@ export const getCurrentUser = cache(async () => {
 
 export const getUserByEmailAndPassword = async (email: string) => {
   const result = await db.query.usersTable.findFirst({
-    where: eq(usersTable.email, email)
+    where: eq(usersTable.email, email),
+    with: {
+      passKeys: true
+    }
   });
   if (!result) throw Error('No Users found.');
   return result;
