@@ -52,13 +52,23 @@ export const passKeysTable = pgTable("pass_keys", {
 
 
 
+export const devicesTable = pgTable("devices", {
+  id: serial("id").primaryKey(),
+  pushSubscription: json('push_subscription').notNull(),
+  userId: integer('user_id').references(() => usersTable.id).notNull(),
+});
+
+
+
 
 export const userRelations = relations(usersTable, ({ one, many }) => ({
   role: one(rolesTable, {
     fields: [usersTable.role_id],
     references: [rolesTable.id]
   }),
-  passKeys: many(passKeysTable)
+  passKeys: many(passKeysTable),
+  devices: many(devicesTable)
+
 }));
 
 export const roleRelations = relations(rolesTable, ({ many }) => ({
@@ -77,6 +87,12 @@ export const passKeysRelations = relations(passKeysTable, ({ one }) => ({
   }),
 }))
 
+export const deviceRelations = relations(devicesTable, ({ one }) => ({
+  user: one(usersTable, {
+    fields: [devicesTable.userId],
+    references: [usersTable.id]
+  }),
+}));
 
 
 export const db = drizzle(pool, {
@@ -88,7 +104,9 @@ export const db = drizzle(pool, {
     roleRelations,
     permissionRelations,
     passKeysTable,
-    passKeysRelations
+    passKeysRelations,
+    devicesTable,
+    deviceRelations
   }
 });
 

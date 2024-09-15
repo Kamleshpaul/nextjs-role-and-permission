@@ -15,6 +15,13 @@
       "when": 1725280876901,
       "tag": "0001_flashy_legion",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1726383347962,
+      "tag": "0002_ambitious_spencer_smythe",
+      "breakpoints": true
     }
   ]
 }

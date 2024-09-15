@@ -36,6 +36,7 @@
     "tailwind-merge": "^2.4.0",
     "tailwindcss-animate": "^1.0.7",
     "tsx": "^4.16.5",
+    "web-push": "^3.6.7",
     "zod": "^3.23.8",
     "zsa": "^0.5.1",
     "zsa-react": "^0.2.2"
@@ -48,6 +49,7 @@
     "@types/pg": "^8.11.6",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@types/web-push": "^3.6.3",
     "drizzle-kit": "^0.23.1",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",

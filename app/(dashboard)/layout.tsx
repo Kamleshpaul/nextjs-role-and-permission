@@ -21,6 +21,7 @@ import { redirect } from "next/navigation"
 import Logout from "./logout"
 import Guard from "@/components/server/Guard"
 import { permissionList } from "@/utils/constants"
+import PushNotification from "@/components/PushNotification"
 
 
 const Nav = () =>
@@ -93,7 +94,7 @@ export default async function DashboardLayout(
             </SheetContent>
           </Sheet>
           <div className="w-full flex-1">
-
+            <PushNotification />
           </div>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -11,7 +11,7 @@ import { isoBase64URL } from '@simplewebauthn/server/helpers';
 
 const RP_ID = "localhost";
 const rpName = "Coding Tricks";
-const CLIENT_URL = "http://localhost:3000";
+const CLIENT_URL = "https://localhost:3000";
 
 
 export const getRegistrationOptions = async () => {
