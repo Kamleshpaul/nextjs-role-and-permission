@@ -2,6 +2,7 @@ import Guard from "@/components/server/Guard";
 import { Button } from "@/components/ui/button";
 import { getCurrentUser } from "@/server/queries/user";
 import { permissionList } from "@/utils/constants";
+import TriggerJob from "./TriggerJob";
 
 export default async function Dashboard() {
   const user = await getCurrentUser();
@@ -32,6 +33,7 @@ export default async function Dashboard() {
             </Button>
           </Guard>
         ))}
+        <TriggerJob />
       </div>
     </main>
   );

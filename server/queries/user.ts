@@ -20,8 +20,6 @@ export const getCurrentUser = cache(async () => {
   if (!result) {
     throw Error('No Users found.')
   };
-  console.log({ result });
-
   return result;
 })
 

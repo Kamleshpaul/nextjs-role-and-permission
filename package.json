@@ -12,7 +12,8 @@
     "db:drop": "drizzle-kit drop",
     "db:studio": "drizzle-kit studio",
     "db:seed": "tsx ./server/database/seed/index.ts",
-    "schedule:run": "tsx ./server/scheduler/index.ts"
+    "schedule:run": "tsx ./server/scheduler/index.ts",
+    "queue:run": "tsx ./server/queues/index.ts"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.1",

@@ -3,6 +3,7 @@ import Redis from 'ioredis';
 import { sendReminderEmails } from './jobs/reminderEmails';
 import { logCleanup } from './jobs/logCleanup';
 import SchedulerHelper from './SchedulerHelper';
+import { redisConnection } from '../redis';
 
 type schedulerType = {
   name: string;
@@ -11,11 +12,8 @@ type schedulerType = {
 }
 
 
-export const connection = new Redis('redis://127.0.0.1:6379', {
-  maxRetriesPerRequest: null,
-  enableReadyCheck: false,
-});
-export const schedulerQueue = new Queue('scheduler', { connection });
+
+export const schedulerQueue = new Queue('scheduler', { connection: redisConnection });
 
 
 /**
@@ -68,7 +66,7 @@ const main = async () => {
       }
     },
     {
-      connection,
+      connection: redisConnection,
       removeOnComplete: { count: 10 },
       removeOnFail: { count: 50 }
     },
