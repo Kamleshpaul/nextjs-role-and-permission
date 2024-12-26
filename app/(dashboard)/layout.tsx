@@ -4,6 +4,7 @@ import {
   Coffee,
   Home,
   Menu,
+  MessageSquareText,
   Users,
 } from "lucide-react"
 
@@ -32,6 +33,14 @@ const Nav = () =>
     >
       <Home className="h-4 w-4" />
       Dashboard
+    </Link>
+
+    <Link
+      href="/live-chat"
+      className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"
+    >
+      <MessageSquareText  className="h-4 w-4" />
+      Live chat
     </Link>
 
     <Guard
